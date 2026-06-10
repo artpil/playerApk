@@ -5,7 +5,6 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
-# Решаем проблему с переходом GitHub на Node.js 24
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -26,11 +25,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20 # Исправлено: теперь тут node-version вместо node-size
+          node-version: 20
+
+      # Гарантируем, что папка www существует, даже если локально мы её не запушили
+      - name: Ensure Web Assets Directory Exists
+        run: mkdir -p www
 
       - name: Install Dependencies
         run: |
-          npm install
+          npm ci || npm install
           npx cap sync
 
       - name: Build APK with Gradle
