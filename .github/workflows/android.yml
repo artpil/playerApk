@@ -9,47 +9,44 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    # Временное решение для Node.js 24
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      # Настраиваем Java 17 (необходима для Android SDK и Gradle)
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      # Настраиваем Node.js 22
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      # Гарантируем наличие папки для сборки веб-пакета
       - name: Ensure Web Assets Directory Exists
         run: mkdir -p www
 
-      # Устанавливаем зависимости фронтенда и синхронизируем Capacitor
       - name: Install Dependencies
         run: |
           npm install
           npx cap sync
 
-      # Исправляем права доступа и возможный конфликт CRLF/LF строк (Windows/Linux)
       - name: Fix Gradle Script Line Endings
         run: |
           sudo apt-get install -y dos2unix
           dos2unix android/gradlew
           chmod +x android/gradlew
 
-      # Запускаем компиляцию APK
       - name: Build APK with Gradle
         run: |
           cd android
           ./gradlew assembleDebug
 
-      # Сохраняем готовый артефакт
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
