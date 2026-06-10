@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio Tube</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="player-container">
+  <h2>Audio Tube Player</h2>
+
+  <div class="input-group">
+    <input type="text" id="videoUrl" placeholder="Вставьте ссылку на YouTube">
+    <button id="loadBtn">Загрузить</button>
+  </div>
+
+  <div class="controls">
+    <button id="playBtn" disabled>▶ Плей</button>
+    <button id="pauseBtn" disabled>❚❚ Пауза</button>
+  </div>
+
+  <div id="status">Ожидание ссылки...</div>
+</div>
+
+<div class="hidden-video">
+  <div id="yt-player"></div>
+</div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="app.js"></script>
+</body>
+</html>
